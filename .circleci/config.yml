@@ -8,8 +8,8 @@ jobs:
     steps:
       - checkout
       - run: 
-          ssh circleci@170.64.134.240 -i ~/.ssh/circleci "./deploy.sh" 
-          yes
+          ssh circleci@170.64.134.240 -i ~/.ssh/circleci 
+          "./deploy.sh" 
 
 # Orchestrate our job run sequence
 workflows:
