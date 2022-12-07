@@ -7,31 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id                   String              @id
-  name                 String
-  email                String
-  password             String
-  phoneNumber          String
-  jobTitle             String
-  role                 String
-  resetPasswordtoken   String
-  emailVerified        Boolean             @default(false)
-  dateCreated          String
-  lastActive           String
-  resetPasswordExpires String
-  OrganisationMember   OrganisationMember?
+model OrgService {
+  id                 String           @id
+  orgServiceUpviseId String           @unique
+  OrgServiceUpvise   OrgServiceUpvise @relation(fields: [orgServiceUpviseId], references: [id])
+  Organisation       Organisation?
 }
 
-model OrganisationMember {
-  id           String       @id
-  isActive     Boolean      @default(false)
-  isOrgManager Boolean      @default(false)
-  dateCreated  String
-  userId       String       @unique
-  orgId        String
-  Organisation Organisation @relation(fields: [orgId], references: [id])
-  User         User         @relation(fields: [userId], references: [id])
+model OrgServiceUpvise {
+  id              String        @id
+  enabled         Boolean       @default(false)
+  email           String
+  password        String
+  url             String
+  adminEyesOnly   Boolean
+  userCap         Int
+  upviseAccountId String        @unique
+  UpviseAccount   UpviseAccount @relation(fields: [upviseAccountId], references: [id])
+  OrgService      OrgService?
 }
 
 model Organisation {
@@ -46,28 +39,19 @@ model Organisation {
   logo               String
   userCap            Int
   orgServiceId       String               @unique
-  orgService         OrgService           @relation(fields: [orgServiceId], references: [id])
+  OrgService         OrgService           @relation(fields: [orgServiceId], references: [id])
   OrganisationMember OrganisationMember[]
 }
 
-model OrgService {
-  id                 String           @id
-  orgServiceUpviseId String           @unique
-  orgServiceUpvise   OrgServiceUpvise @relation(fields: [orgServiceUpviseId], references: [id])
-  Organisation       Organisation?
-}
-
-model OrgServiceUpvise {
-  id              String        @id
-  enabled         Boolean       @default(false)
-  email           String
-  password        String
-  url             String
-  adminEyesOnly   Boolean
-  userCap         Int
-  upviseAccountId String        @unique
-  upviseAccount   UpviseAccount @relation(fields: [upviseAccountId], references: [id])
-  OrgService      OrgService?
+model OrganisationMember {
+  id           String       @id
+  isActive     Boolean      @default(false)
+  isOrgManager Boolean      @default(false)
+  dateCreated  String
+  userId       String       @unique
+  orgId        String
+  Organisation Organisation @relation(fields: [orgId], references: [id])
+  User         User         @relation(fields: [userId], references: [id])
 }
 
 model UpviseAccount {
@@ -88,4 +72,20 @@ model UpviseAccount {
   token            String
   backupToken      String
   OrgServiceUpvise OrgServiceUpvise?
+}
+
+model User {
+  id                   String              @id
+  name                 String
+  email                String
+  password             String
+  phoneNumber          String
+  jobTitle             String
+  role                 String
+  resetPasswordtoken   String
+  emailVerified        Boolean             @default(false)
+  dateCreated          String
+  lastActive           String
+  resetPasswordExpires String
+  OrganisationMember   OrganisationMember?
 }
