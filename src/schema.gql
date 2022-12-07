@@ -1,0 +1,82 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthError {
+  message: String!
+}
+
+type AuthPayload {
+  email: String!
+  id: String!
+  isAuthenticated: Boolean!
+  name: String!
+}
+
+union AuthResult = AuthError | AuthPayload
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  login(loginInput: LoginInput!): AuthResult!
+}
+
+type OrgService {
+  id: String!
+  orgServiceUpviseId: String!
+}
+
+type OrgServiceUpvise {
+  adminEyesOnly: Boolean!
+  email: String!
+  enabled: Boolean!
+  id: String!
+  password: String!
+  upviseAccountId: String!
+  url: String!
+  userCap: Int!
+}
+
+type Organisation {
+  address: String!
+  dateCreated: String!
+  getOrgService: OrgService!
+  id: String!
+  logo: String!
+  name: String!
+  orgServiceId: String!
+  partnerCode: String!
+  phone: String!
+  supportPlans: String!
+  userCap: Int!
+  website: String!
+}
+
+type Query {
+  getAllOrganisations: [Organisation!]!
+  getOrgDetails(orgId: String!): Organisation!
+  getOrgServiceUpviseDetails(orgServiceUpviseId: String!): OrgServiceUpvise!
+  upviseAccDetails(accountId: String!): UpviseAccount!
+}
+
+type UpviseAccount {
+  backupToken: String!
+  companyId: String!
+  companyName: String!
+  countryCode: String!
+  creationDate: String!
+  dbName: String!
+  displayName: String!
+  email: String!
+  emailDropbox: String!
+  expiryDate: String!
+  id: String!
+  language: String!
+  partnerCode: String!
+  privilege: String!
+  shareToken: String!
+  token: String!
+}
